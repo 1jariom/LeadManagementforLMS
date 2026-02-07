@@ -117,29 +117,43 @@ export function DashboardSidebar({ role, isOpen, setIsOpen }: DashboardSidebarPr
           )}
         </AnimatePresence>
         
-        {/* Desktop collapse button */}
-        {!isMobile && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setCollapsed(!collapsed)}
-            className="text-sidebar-foreground hover:bg-sidebar-accent shrink-0"
-          >
-            {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          </Button>
-        )}
-        
-        {/* Mobile close button */}
-        {isMobile && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsOpen(false)}
-            className="text-sidebar-foreground hover:bg-sidebar-accent shrink-0"
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          {/* Mobile logout button */}
+          {isMobile && (
+            <NavLink
+              to="/"
+              onClick={handleNavClick}
+              className="flex items-center justify-center h-8 w-8 rounded-lg text-sidebar-foreground/80 hover:bg-destructive/20 hover:text-destructive-foreground transition-all duration-200"
+              title="Logout"
+            >
+              <LogOut className="h-4 w-4" />
+            </NavLink>
+          )}
+          
+          {/* Desktop collapse button */}
+          {!isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setCollapsed(!collapsed)}
+              className="text-sidebar-foreground hover:bg-sidebar-accent shrink-0"
+            >
+              {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+            </Button>
+          )}
+          
+          {/* Mobile close button */}
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(false)}
+              className="text-sidebar-foreground hover:bg-sidebar-accent shrink-0"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Navigation */}
@@ -184,24 +198,27 @@ export function DashboardSidebar({ role, isOpen, setIsOpen }: DashboardSidebarPr
           "mb-2 rounded-lg bg-sidebar-accent/50 px-3 py-2",
           (!collapsed || isMobile) ? "" : "text-center"
         )}>
-          {(!collapsed || isMobile) && (
+          {(!collapsed || isMobile) && !isMobile && (
             <p className="text-xs text-sidebar-muted">Logged in as</p>
           )}
           <p className="text-sm font-medium text-sidebar-foreground capitalize">
             {(!collapsed || isMobile) ? role : role[0].toUpperCase()}
           </p>
         </div>
-        <NavLink
-          to="/"
-          onClick={handleNavClick}
-          className={cn(
-            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
-            "text-sidebar-foreground/80 hover:bg-destructive/20 hover:text-destructive-foreground"
-          )}
-        >
-          <LogOut className={cn("h-5 w-5 shrink-0", (!collapsed || isMobile) ? "" : "mx-auto")} />
-          {(!collapsed || isMobile) && <span>Logout</span>}
-        </NavLink>
+        {/* Desktop logout */}
+        {!isMobile && (
+          <NavLink
+            to="/"
+            onClick={handleNavClick}
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+              "text-sidebar-foreground/80 hover:bg-destructive/20 hover:text-destructive-foreground"
+            )}
+          >
+            <LogOut className={cn("h-5 w-5 shrink-0", (!collapsed || isMobile) ? "" : "mx-auto")} />
+            {(!collapsed || isMobile) && <span>Logout</span>}
+          </NavLink>
+        )}
       </div>
     </motion.aside>
   );
