@@ -19,8 +19,23 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "react-refresh/only-export-components": [
+        "warn", 
+        { 
+          allowConstantExport: true,
+          allowExportNames: ["badgeVariants", "buttonVariants", "toggleVariants", "useFormField", "navigationMenuTriggerStyle", "sidebarMenuButtonVariants", "toasterVariants", "useSidebar", "toast"]
+        }
+      ],
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
+  // Disable react-refresh warnings for UI component files
+  {
+    files: ["src/components/ui/**/*.{ts,tsx}"],
+    rules: {
+      "react-refresh/only-export-components": "off",
     },
   },
 );

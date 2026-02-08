@@ -13,6 +13,9 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminSettings from "./pages/admin/AdminSettings";
 import ManagerDashboard from "./pages/manager/ManagerDashboard";
 import AgentDashboard from "./pages/agent/AgentDashboard";
+import MyLeads from "./pages/agent/MyLeads";
+import AddLeadPage from "./pages/agent/AddLeadPage";
+import Settings from "./pages/agent/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +44,9 @@ const App = () => (
           
           {/* Agent Routes */}
           <Route path="/agent" element={<AgentDashboard />} />
+          <Route path="/agent/leads" element={<MyLeads />} />
+          <Route path="/agent/add-lead" element={<AddLeadPage />} />
+          <Route path="/agent/settings" element={<Settings />} />
           <Route path="/agent/*" element={<AgentDashboard />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

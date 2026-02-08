@@ -1,5 +1,12 @@
 import { Lead } from "@/components/tables/LeadsTable";
 
+export interface Activity {
+  id: string;
+  type: "call" | "email" | "meeting" | "note";
+  message: string;
+  time: string;
+}
+
 export const mockLeads: Lead[] = [
   {
     id: "1",
@@ -88,9 +95,33 @@ export const mockLeads: Lead[] = [
     company: "Finance Pro",
     source: "Website",
     status: "new",
-    assignedAgent: "David Lee",
+    assignedAgent: "John Smith",
     date: "2025-02-06",
+    nextFollowUp: "2025-02-08",
+  },
+  {
+    id: "9",
+    name: "Robert Garcia",
+    email: "robert@techstart.io",
+    phone: "+1 234 567 8909",
+    company: "TechStart",
+    source: "LinkedIn",
+    status: "contacted",
+    assignedAgent: "John Smith",
+    date: "2025-02-07",
     nextFollowUp: "2025-02-09",
+  },
+  {
+    id: "10",
+    name: "Maria Rodriguez",
+    email: "maria@digitalcorp.com",
+    phone: "+1 234 567 8910",
+    company: "Digital Corp",
+    source: "Referral",
+    status: "qualified",
+    assignedAgent: "John Smith",
+    date: "2025-02-05",
+    nextFollowUp: "2025-02-08",
   },
 ];
 
@@ -128,9 +159,15 @@ export const mockNotifications = [
   { id: "4", message: "Meeting scheduled with Emma Williams", time: "3 hours ago", read: true },
 ];
 
-export const mockActivities = [
+export const mockActivities: Activity[] = [
   { id: "1", type: "call", message: "Called Alex Thompson - Interested in premium plan", time: "10:30 AM" },
   { id: "2", type: "email", message: "Sent proposal to Sarah Johnson", time: "09:15 AM" },
-  { id: "3", type: "meeting", message: "Demo meeting with Michael Chen", time: "Yesterday" },
-  { id: "4", type: "note", message: "Updated contact info for Emma Williams", time: "Yesterday" },
+  { id: "3", type: "meeting", message: "Demo meeting with David Brown completed", time: "08:45 AM" },
+  { id: "4", type: "note", message: "Updated contact info for Alex Thompson", time: "Yesterday 4:30 PM" },
+  { id: "5", type: "call", message: "Follow-up call with David Brown - Ready to sign", time: "Yesterday 2:15 PM" },
+  { id: "6", type: "email", message: "Sent contract to David Brown", time: "Yesterday 11:00 AM" },
+  { id: "7", type: "meeting", message: "Scheduled follow-up meeting with Robert Garcia", time: "Yesterday 10:00 AM" },
+  { id: "8", type: "note", message: "Added budget notes for Maria Rodriguez", time: "2 days ago" },
+  { id: "9", type: "call", message: "Initial call with Jennifer Lee - Good prospect", time: "2 days ago" },
+  { id: "10", type: "email", message: "Sent welcome email series to new lead", time: "3 days ago" },
 ];

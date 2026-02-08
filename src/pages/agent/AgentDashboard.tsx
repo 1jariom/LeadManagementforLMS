@@ -1,24 +1,19 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ClipboardList,
   Calendar,
   TrendingUp,
   TrendingDown,
-  Phone,
-  Mail,
-  Clock,
-  MessageSquare,
-  X,
   CalendarDays,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { SummaryCard } from "@/components/ui/summary-card";
+import ActivityTimeline from "../../components/agent/ActivityTimeline";
+import { LeadDetailModal } from "@/components/agent/LeadDetailModal";
+import { AddLeadModal } from "@/components/agent/AddLeadModal";
 import { mockLeads, mockActivities } from "@/data/mockData";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -28,19 +23,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Lead } from "@/components/tables/LeadsTable";
 
 const statusColors: Record<string, string> = {
@@ -53,27 +35,40 @@ const statusColors: Record<string, string> = {
   lost: "bg-destructive text-destructive-foreground",
 };
 
-const activityIcons: Record<string, React.ElementType> = {
-  call: Phone,
-  email: Mail,
-  meeting: Calendar,
-  note: MessageSquare,
-};
-
 const AgentDashboard = () => {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isAddLeadModalOpen, setIsAddLeadModalOpen] = useState(false);
+  const [currentAgent] = useState("John Smith");
 
-  const myLeads = mockLeads.filter((l) => l.assignedAgent === "John Smith");
+  const myLeads = mockLeads.filter((l) => l.assignedAgent === currentAgent);
   const followUpsToday = myLeads.filter(
     (l) => l.nextFollowUp && new Date(l.nextFollowUp).toDateString() === new Date().toDateString()
   ).length;
   const convertedLeads = myLeads.filter((l) => l.status === "converted").length;
   const lostLeads = myLeads.filter((l) => l.status === "lost").length;
 
+  const handleLeadSelect = (lead: Lead) => {
+    setSelectedLead(lead);
+    setIsDetailModalOpen(true);
+  };
+
+  const handleSaveLead = (lead: Lead, updates: any) => {
+    console.log("Saving lead:", {
+      leadId: lead.id,
+      ...updates,
+    });
+    setSelectedLead(null);
+  };
+
+  const handleAddLead = (leadData: any) => {
+    console.log("Adding new lead:", leadData);
+  };
+
   return (
     <DashboardLayout role="agent" title="My Dashboard">
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 md:mb-8">
         <SummaryCard
           title="My Leads"
           value={myLeads.length}
@@ -103,79 +98,109 @@ const AgentDashboard = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-6">
         {/* My Leads Table */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="xl:col-span-2 rounded-xl border border-border bg-card shadow-sm overflow-hidden"
+          className="lg:col-span-2 rounded-lg md:rounded-xl border border-border bg-card shadow-sm overflow-hidden"
         >
-          <div className="p-4 md:p-6 border-b border-border">
-            <h2 className="text-lg font-semibold text-foreground">My Leads</h2>
+          <div className="p-3 md:p-6 border-b border-border">
+            <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-3">
+              <h2 className="text-base md:text-lg font-semibold text-foreground">My Leads</h2>
+              <div className="flex gap-2 w-full xs:w-auto">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={() => {
+                    console.log("Filter button clicked");
+                  }}
+                  className="text-xs md:text-sm flex-1 xs:flex-none"
+                >
+                  Filter
+                </Button>
+                <Button 
+                  size="sm" 
+                  className="bg-cyan-600 hover:bg-cyan-700 text-white text-xs md:text-sm flex-1 xs:flex-none" 
+                  onClick={() => {
+                    setIsAddLeadModalOpen(true);
+                  }}
+                >
+                  Add Lead
+                </Button>
+              </div>
+            </div>
           </div>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/50">
-                  <TableHead className="min-w-[150px]">Lead Name</TableHead>
-                  <TableHead className="min-w-[180px]">Contact Info</TableHead>
-                  <TableHead className="min-w-[100px]">Status</TableHead>
-                  <TableHead className="min-w-[140px]">Next Follow-up</TableHead>
-                  <TableHead className="text-right min-w-[160px]">Action</TableHead>
+                  <TableHead className="min-w-[120px] md:min-w-[150px] text-xs md:text-sm">Lead Name</TableHead>
+                  <TableHead className="hidden sm:table-cell min-w-[140px] md:min-w-[180px] text-xs md:text-sm">Contact</TableHead>
+                  <TableHead className="min-w-[80px] md:min-w-[100px] text-xs md:text-sm">Status</TableHead>
+                  <TableHead className="hidden md:table-cell min-w-[130px] text-xs md:text-sm">Follow-up</TableHead>
+                  <TableHead className="text-right min-w-[100px] md:min-w-[160px] text-xs md:text-sm">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {mockLeads.slice(0, 6).map((lead, index) => (
-                  <motion.tr
+                {myLeads.slice(0, 6).map((lead) => (
+                  <TableRow
                     key={lead.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="hover:bg-card-hover group"
+                    className="hover:bg-muted/50"
                   >
-                    <TableCell className="font-medium">{lead.name}</TableCell>
-                    <TableCell>
-                      <div className="text-sm">
+                    <TableCell className="font-medium text-xs md:text-sm py-3">{lead.name}</TableCell>
+                    <TableCell className="hidden sm:table-cell text-xs md:text-sm">
+                      <div className="text-xs md:text-sm">
                         <p className="text-muted-foreground truncate">{lead.email}</p>
-                        <p className="text-muted-foreground">{lead.phone}</p>
+                        <p className="text-muted-foreground truncate">{lead.phone}</p>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge className={statusColors[lead.status]}>
+                      <Badge className={`${statusColors[lead.status]} text-xs`}>
                         {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden md:table-cell text-xs md:text-sm">
                       {lead.nextFollowUp ? (
-                        <div className="flex items-center gap-2 text-sm">
-                          <CalendarDays className="h-4 w-4 text-muted-foreground" />
-                          <span className="truncate">{lead.nextFollowUp}</span>
+                        <div className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+                          <CalendarDays className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground" />
+                          <span className={`truncate ${
+                            new Date(lead.nextFollowUp).toDateString() === new Date().toDateString()
+                              ? "text-warning font-medium"
+                              : ""
+                          }`}>
+                            {lead.nextFollowUp}
+                          </span>
                         </div>
                       ) : (
                         <span className="text-muted-foreground">—</span>
                       )}
                     </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
+                    <TableCell className="text-right py-3">
+                      <div className="flex justify-end gap-1 md:gap-2">
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => setSelectedLead(lead)}
-                          className="shrink-0"
+                          onClick={() => {
+                            handleLeadSelect(lead);
+                          }}
+                          className="shrink-0 text-xs md:text-sm px-2 md:px-3 py-1 md:py-2"
                         >
                           View
                         </Button>
                         <Button
                           size="sm"
-                          className="gradient-teal text-primary-foreground shrink-0"
-                          onClick={() => setSelectedLead(lead)}
+                          className="bg-cyan-600 hover:bg-cyan-700 text-white shrink-0 text-xs md:text-sm px-2 md:px-3 py-1 md:py-2"
+                          onClick={() => {
+                            handleLeadSelect(lead);
+                          }}
                         >
                           Update
                         </Button>
                       </div>
                     </TableCell>
-                  </motion.tr>
+                  </TableRow>
                 ))}
               </TableBody>
             </Table>
@@ -187,130 +212,26 @@ const AgentDashboard = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="rounded-xl border border-border bg-card shadow-sm overflow-hidden"
+          className="lg:col-span-1"
         >
-          <div className="p-4 md:p-6 border-b border-border">
-            <h2 className="text-lg font-semibold text-foreground">Activity Timeline</h2>
-          </div>
-          <div className="p-4 md:p-6">
-            <div className="space-y-6">
-              {mockActivities.map((activity, index) => {
-                const Icon = activityIcons[activity.type] || MessageSquare;
-                return (
-                  <motion.div
-                    key={activity.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex gap-3 md:gap-4"
-                  >
-                    <div className="relative flex-shrink-0">
-                      <div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center">
-                        <Icon className="h-4 w-4 text-accent-foreground" />
-                      </div>
-                      {index < mockActivities.length - 1 && (
-                        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-0.5 h-8 bg-border" />
-                      )}
-                    </div>
-                    <div className="flex-1 pt-1 min-w-0">
-                      <p className="text-sm text-foreground">{activity.message}</p>
-                      <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-                        <Clock className="h-3 w-3 flex-shrink-0" />
-                        {activity.time}
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
+          <ActivityTimeline activities={mockActivities} maxItems={6} />
         </motion.div>
       </div>
 
       {/* Lead Detail Modal */}
-      <AnimatePresence>
-        {selectedLead && (
-          <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
-            <DialogContent className="w-[95vw] max-w-lg max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>Lead Details</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-6 mt-4">
-                {/* Lead Info */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-muted-foreground">Name</Label>
-                    <p className="font-medium">{selectedLead.name}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Company</Label>
-                    <p className="font-medium">{selectedLead.company}</p>
-                  </div>
-                  <div className="sm:col-span-2">
-                    <Label className="text-muted-foreground">Email</Label>
-                    <p className="font-medium break-all">{selectedLead.email}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Phone</Label>
-                    <p className="font-medium">{selectedLead.phone}</p>
-                  </div>
-                </div>
+      <LeadDetailModal
+        lead={selectedLead}
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        onSave={handleSaveLead}
+      />
 
-                {/* Status Update */}
-                <div className="space-y-2">
-                  <Label>Status</Label>
-                  <Select defaultValue={selectedLead.status}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="new">New</SelectItem>
-                      <SelectItem value="contacted">Contacted</SelectItem>
-                      <SelectItem value="qualified">Qualified</SelectItem>
-                      <SelectItem value="proposal">Proposal</SelectItem>
-                      <SelectItem value="negotiation">Negotiation</SelectItem>
-                      <SelectItem value="converted">Converted</SelectItem>
-                      <SelectItem value="lost">Lost</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Notes */}
-                <div className="space-y-2">
-                  <Label>Notes</Label>
-                  <Textarea
-                    placeholder="Add notes about this lead..."
-                    className="min-h-[100px] resize-none"
-                  />
-                </div>
-
-                {/* Follow-up Date */}
-                <div className="space-y-2">
-                  <Label>Next Follow-up Date</Label>
-                  <Input type="date" defaultValue={selectedLead.nextFollowUp} />
-                </div>
-
-                {/* Actions */}
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button
-                    className="flex-1 gradient-teal text-primary-foreground"
-                    onClick={() => setSelectedLead(null)}
-                  >
-                    Save Changes
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setSelectedLead(null)}
-                    className="flex-1"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-        )}
-      </AnimatePresence>
+      {/* Add Lead Modal */}
+      <AddLeadModal
+        isOpen={isAddLeadModalOpen}
+        onClose={() => setIsAddLeadModalOpen(false)}
+        onSubmit={handleAddLead}
+      />
     </DashboardLayout>
   );
 };
