@@ -72,7 +72,7 @@ export function DashboardLayout({ children, role, title }: DashboardLayoutProps)
       )}>
         {/* Header */}
         <header className="sticky top-0 z-20 h-16 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="flex h-full items-center justify-between px-4 md:px-6">
+          <div className="flex h-full items-center justify-between px-3 sm:px-4 md:px-6">
             <div className="flex items-center gap-2 md:gap-4 min-w-0">
               <Button
                 variant="ghost"
@@ -186,7 +186,7 @@ export function DashboardLayout({ children, role, title }: DashboardLayoutProps)
         </header>
 
         {/* Page Content */}
-        <main className="p-4 md:p-6">
+        <main className="p-3 sm:p-4 md:p-6 lg:p-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

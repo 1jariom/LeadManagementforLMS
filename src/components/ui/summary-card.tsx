@@ -45,21 +45,21 @@ export function SummaryCard({
       transition={{ duration: 0.4, delay }}
       whileHover={{ scale: 1.02, y: -2 }}
       className={cn(
-        "rounded-xl p-4 md:p-6 shadow-sm transition-shadow hover:shadow-md",
+        "rounded-lg md:rounded-xl p-3 sm:p-4 md:p-6 shadow-sm transition-shadow hover:shadow-md",
         variantStyles[variant]
       )}
     >
-      <div className="flex items-start justify-between">
-        <div className="space-y-2">
+      <div className="flex items-start justify-between gap-2">
+        <div className="space-y-1 sm:space-y-2 min-w-0">
           <p
             className={cn(
-              "text-sm font-medium",
+              "text-xs sm:text-sm font-medium truncate",
               variant === "default" ? "text-muted-foreground" : "opacity-80"
             )}
           >
             {title}
           </p>
-          <p className="text-2xl md:text-3xl font-bold tracking-tight">{value}</p>
+          <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">{value}</p>
           {trend && (
             <p
               className={cn(
@@ -79,7 +79,7 @@ export function SummaryCard({
         </div>
         <div
           className={cn(
-            "rounded-lg p-2 md:p-3",
+            "rounded-lg p-2 md:p-3 shrink-0",
             iconVariantStyles[variant]
           )}
         >
