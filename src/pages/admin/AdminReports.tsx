@@ -202,13 +202,7 @@ const AdminReports = () => {
           className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 p-8 text-white"
         >
           {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle at 25% 25%, white 2px, transparent 2px), 
-                               radial-gradient(circle at 75% 75%, white 2px, transparent 2px)`,
-              backgroundSize: '60px 60px, 80px 80px'
-            }} />
-          </div>
+          <div className="absolute inset-0 bg-white opacity-95" />
 
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             {/* Title Section */}
@@ -472,17 +466,7 @@ const AdminReports = () => {
           className="relative"
         >
           <div className="relative overflow-hidden rounded-3xl bg-white border border-gray-100 shadow-xl">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute inset-0" style={{
-                backgroundImage: `linear-gradient(45deg, #0f766e 25%, transparent 25%), 
-                                 linear-gradient(-45deg, #0f766e 25%, transparent 25%), 
-                                 linear-gradient(45deg, transparent 75%, #0f766e 75%), 
-                                 linear-gradient(-45deg, transparent 75%, #0f766e 75%)`,
-                backgroundSize: '20px 20px',
-                backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px'
-              }} />
-            </div>
+            <div className="absolute inset-0 bg-white opacity-95" />
 
             <div className="relative z-10">
               <Tabs defaultValue="overview" className="space-y-0">
@@ -770,22 +754,7 @@ const AdminReports = () => {
                                 background: [
                                   "linear-gradient(135deg, #0f766e, #047857, #065f46)",
                                   "linear-gradient(225deg, #0f766e, #047857, #065f46)",
-                                  "linear-gradient(315deg, #0f766e, #047857, #065f46)",
-                                  "linear-gradient(135deg, #0f766e, #047857, #065f46)"
-                                ]
-                              }}
-                              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                            />
-
-                            <CardHeader className="relative z-10 pb-3 bg-gradient-to-r from-gray-50 to-teal-25">
-                              <div className="flex items-center gap-3">
-                                <motion.div
-                                  animate={{ 
-                                    rotate: [0, 5, -5, 0],
-                                    scale: [1, 1.1, 1]
-                                  }}
-                                  transition={{ 
-                                    duration: 3, 
+                            <div className="absolute inset-0 bg-white opacity-95"         duration: 3, 
                                     repeat: Infinity,
                                     delay: index * 0.2 
                                   }}
