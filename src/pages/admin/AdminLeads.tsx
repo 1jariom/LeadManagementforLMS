@@ -42,6 +42,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -217,6 +218,20 @@ const AdminLeads = () => {
     setIsAddLeadOpen(false);
   };
 
+  // Close handler to reset form
+  const handleCloseAddLead = () => {
+    setNewLead({
+      name: "",
+      email: "", 
+      phone: "",
+      company: "",
+      source: "Website",
+      assignedAgent: "",
+      notes: ""
+    });
+    setIsAddLeadOpen(false);
+  };
+
   const updateLeadStatus = (leadId: string, newStatus: Lead["status"]) => {
     setLeads(leads.map(lead => 
       lead.id === leadId ? { ...lead, status: newStatus } : lead
@@ -355,7 +370,7 @@ const AdminLeads = () => {
                 </Button>
               </motion.div>
               
-              <Dialog open={isAddLeadOpen} onOpenChange={setIsAddLeadOpen}>
+              <Dialog open={isAddLeadOpen} onOpenChange={(open) => !open && handleCloseAddLead()}>
                 <DialogTrigger asChild>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <Button size="sm" className="bg-white hover:bg-gray-50 text-teal-700 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold">
@@ -381,7 +396,19 @@ const AdminLeads = () => {
                   </div>
 
                   <div className="relative z-10 p-6">
-                    <DialogHeader className="text-center mb-6">
+                    <DialogHeader className="text-center mb-6 relative">
+                      {/* Custom Close Button */}
+                      <DialogClose className="absolute right-0 top-0">
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          className="h-8 w-8 rounded-full hover:bg-gray-100 transition-colors"
+                          onClick={handleCloseAddLead}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </DialogClose>
+                      
                       <motion.div
                         animate={{ rotate: [0, 5, -5, 0] }}
                         transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
@@ -562,7 +589,7 @@ const AdminLeads = () => {
                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                           <Button 
                             variant="outline" 
-                            onClick={() => setIsAddLeadOpen(false)}
+                            onClick={handleCloseAddLead}
                             className="px-6 py-3 border-gray-300 hover:bg-gray-50 rounded-xl transition-all duration-300"
                           >
                             Cancel

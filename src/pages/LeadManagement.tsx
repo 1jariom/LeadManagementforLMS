@@ -41,6 +41,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -109,6 +110,20 @@ const LeadManagementPage = () => {
     };
     
     setLeads([lead, ...leads]);
+    setNewLead({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      source: "Website",
+      assignedAgent: "",
+      notes: ""
+    });
+    setIsAddLeadOpen(false);
+  };
+
+  // Close handler to reset form
+  const handleCloseAddLead = () => {
     setNewLead({
       name: "",
       email: "",
@@ -191,7 +206,7 @@ const LeadManagementPage = () => {
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>
-            <Dialog open={isAddLeadOpen} onOpenChange={setIsAddLeadOpen}>
+            <Dialog open={isAddLeadOpen} onOpenChange={(open) => !open && handleCloseAddLead()}>
               <DialogTrigger asChild>
                 <Button size="sm" className="bg-teal-600 hover:bg-teal-700 text-white">
                   <Plus className="h-4 w-4 mr-2" />
@@ -199,7 +214,19 @@ const LeadManagementPage = () => {
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-lg">
-                <DialogHeader>
+                <DialogHeader className="relative">
+                  {/* Custom Close Button */}
+                  <DialogClose className="absolute right-0 top-0">
+                    <Button 
+                      variant="ghost" 
+                      size="icon"
+                      className="h-8 w-8 rounded-full hover:bg-gray-100 transition-colors"
+                      onClick={handleCloseAddLead}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </DialogClose>
+                  
                   <DialogTitle className="text-gray-900">Add New Lead</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 mt-4">
@@ -297,7 +324,7 @@ const LeadManagementPage = () => {
                     </Button>
                     <Button 
                       variant="outline" 
-                      onClick={() => setIsAddLeadOpen(false)}
+                      onClick={handleCloseAddLead}
                       className="border-gray-300"
                     >
                       Cancel

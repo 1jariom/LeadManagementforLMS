@@ -558,14 +558,29 @@ const AdminReports = () => {
                       transition={{ delay: 1.2 }}
                       className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6"
                     >
-                      <motion.div whileHover={{ scale: 1.02 }} className="rounded-2xl overflow-hidden">
-                        <LeadsByStatusChart />
+                      <motion.div whileHover={{ scale: 1.02 }} className="rounded-2xl overflow-hidden bg-white shadow-lg border border-gray-200">
+                        <div className="bg-gradient-to-r from-teal-50 to-emerald-50 p-4">
+                          <h3 className="font-semibold text-gray-900 mb-2">Leads by Status</h3>
+                        </div>
+                        <div className="bg-white p-6">
+                          <LeadsByStatusChart />
+                        </div>
                       </motion.div>
-                      <motion.div whileHover={{ scale: 1.02 }} className="rounded-2xl overflow-hidden">
-                        <MonthlyGrowthChart />
+                      <motion.div whileHover={{ scale: 1.02 }} className="rounded-2xl overflow-hidden bg-white shadow-lg border border-gray-200">
+                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
+                          <h3 className="font-semibold text-gray-900 mb-2">Monthly Growth</h3>
+                        </div>
+                        <div className="bg-white p-6">
+                          <MonthlyGrowthChart />
+                        </div>
                       </motion.div>
-                      <motion.div whileHover={{ scale: 1.02 }} className="rounded-2xl overflow-hidden">
-                        <AgentPerformanceChart />
+                      <motion.div whileHover={{ scale: 1.02 }} className="rounded-2xl overflow-hidden bg-white shadow-lg border border-gray-200">
+                        <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4">
+                          <h3 className="font-semibold text-gray-900 mb-2">Agent Performance</h3>
+                        </div>
+                        <div className="bg-white p-6">
+                          <AgentPerformanceChart />
+                        </div>
                       </motion.div>
                     </motion.div>
                   </TabsContent>
@@ -581,7 +596,7 @@ const AdminReports = () => {
                         whileHover={{ scale: 1.02, y: -5 }}
                         className="group"
                       >
-                        <Card className="border-gray-200 shadow-lg hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden">
+                        <Card className="border-gray-200 shadow-lg hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden bg-white">
                           <CardHeader className="bg-gradient-to-r from-teal-50 to-emerald-50 border-b border-gray-100">
                             <CardTitle className="flex items-center gap-3 text-gray-900">
                               <motion.div
@@ -656,7 +671,7 @@ const AdminReports = () => {
                         whileHover={{ scale: 1.02, y: -5 }}
                         className="group"
                       >
-                        <Card className="border-gray-200 shadow-lg hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden">
+                        <Card className="border-gray-200 shadow-lg hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden bg-white">
                           <CardHeader className="bg-gradient-to-r from-yellow-50 to-orange-50 border-b border-gray-100">
                             <CardTitle className="flex items-center gap-3 text-gray-900">
                               <motion.div
@@ -669,7 +684,7 @@ const AdminReports = () => {
                               Top Performers
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className="p-6">
+                          <CardContent className="p-6 bg-white">
                             <div className="space-y-4">
                               {topPerformers.slice(0, 5).map((performer, index) => (
                                 <motion.div
@@ -744,7 +759,7 @@ const AdminReports = () => {
                           }}
                           className="group"
                         >
-                          <Card className="relative overflow-hidden border-gray-200 hover:shadow-2xl transition-all duration-500 cursor-pointer rounded-2xl">
+                          <Card className="relative overflow-hidden border-gray-200 hover:shadow-2xl transition-all duration-500 cursor-pointer rounded-2xl bg-white">
                             {/* Background Gradient */}
                             <motion.div
                               className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500"
@@ -789,7 +804,7 @@ const AdminReports = () => {
                               </div>
                             </CardHeader>
                             
-                            <CardContent className="relative z-10 pt-0 p-6">
+                            <CardContent className="relative z-10 pt-0 p-6 bg-white">
                               <div className="flex items-center justify-between">
                                 <motion.span 
                                   initial={{ opacity: 0 }}
@@ -846,7 +861,7 @@ const AdminReports = () => {
                         whileHover={{ scale: 1.02, y: -5 }}
                         className="group"
                       >
-                        <Card className="border-gray-200 shadow-lg hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden">
+                        <Card className="border-gray-200 shadow-lg hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden bg-white">
                           <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-100">
                             <CardTitle className="flex items-center gap-3 text-gray-900">
                               <motion.div
@@ -859,7 +874,7 @@ const AdminReports = () => {
                               Team Performance Overview
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className="p-6">
+                          <CardContent className="p-6 bg-white">
                             <div className="space-y-6">
                               {[
                                 { department: "Sales Team", members: 12, performance: 92, color: "from-emerald-500 to-green-500", bgColor: "bg-emerald-500" },
@@ -906,7 +921,7 @@ const AdminReports = () => {
                         whileHover={{ scale: 1.02, y: -5 }}
                         className="group"
                       >
-                        <Card className="border-gray-200 shadow-lg hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden">
+                        <Card className="border-gray-200 shadow-lg hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden bg-white">
                           <CardHeader className="bg-gradient-to-r from-orange-50 to-red-50 border-b border-gray-100">
                             <CardTitle className="flex items-center gap-3 text-gray-900">
                               <motion.div
@@ -922,7 +937,7 @@ const AdminReports = () => {
                               Activity Overview
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className="p-6">
+                          <CardContent className="p-6 bg-white">
                             <div className="space-y-5">
                               {[
                                 { activity: "Leads Processed", count: 156, change: "+12%", icon: Target },
