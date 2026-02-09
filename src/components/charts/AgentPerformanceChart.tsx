@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   BarChart,
   Bar,
@@ -20,69 +19,58 @@ const data = [
 
 export function AgentPerformanceChart() {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 0.4 }}
-      className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
-      style={{ backgroundColor: '#FFFFFF' }}
-    >
-      <h3 className="mb-4 text-lg font-semibold text-gray-900">
-        Agent Performance
-      </h3>
-      <div className="h-[300px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-            <XAxis
-              dataKey="name"
-              stroke="#6B7280"
-              fontSize={12}
-              tickLine={false}
-            />
-            <YAxis
-              stroke="#6B7280"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#FFFFFF",
-                border: "1px solid #E5E7EB",
-                borderRadius: "8px",
-                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                color: "#374151"
-              }}
-            />
-            <Legend
-              verticalAlign="top"
-              height={36}
-              formatter={(value) => (
-                <span className="text-sm capitalize text-gray-700">{value}</span>
-              )}
-            />
-            <Bar
-              dataKey="converted"
-              fill="#1F8A98"
-              radius={[4, 4, 0, 0]}
-              animationDuration={1000}
-            />
-            <Bar
-              dataKey="pending"
-              fill="#F59E0B"
-              radius={[4, 4, 0, 0]}
-              animationDuration={1200}
-            />
-            <Bar
-              dataKey="lost"
-              fill="#EF4444"
-              radius={[4, 4, 0, 0]}
-              animationDuration={1400}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </motion.div>
+    <div className="h-[300px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+          <XAxis
+            dataKey="name"
+            stroke="#6B7280"
+            fontSize={12}
+            tickLine={false}
+          />
+          <YAxis
+            stroke="#6B7280"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#FFFFFF",
+              border: "1px solid #E5E7EB",
+              borderRadius: "8px",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+              color: "#374151"
+            }}
+          />
+          <Legend
+            verticalAlign="top"
+            height={36}
+            formatter={(value) => (
+              <span className="text-sm capitalize text-gray-700">{value}</span>
+            )}
+          />
+          <Bar
+            dataKey="converted"
+            fill="#1F8A98"
+            radius={[4, 4, 0, 0]}
+            animationDuration={1000}
+          />
+          <Bar
+            dataKey="pending"
+            fill="#F59E0B"
+            radius={[4, 4, 0, 0]}
+            animationDuration={1200}
+          />
+          <Bar
+            dataKey="lost"
+            fill="#EF4444"
+            radius={[4, 4, 0, 0]}
+            animationDuration={1400}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
