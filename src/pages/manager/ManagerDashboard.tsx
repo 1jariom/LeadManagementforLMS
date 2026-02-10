@@ -299,48 +299,57 @@ const ManagerDashboard = () => {
           </div>
           <div>
             {/* Mobile View - Cards */}
-            <div className="md:hidden space-y-4 p-4">
+            <div className="md:hidden space-y-3 p-3 sm:p-4">
               {filteredLeads.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  No leads found matching your filters
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-12 text-muted-foreground"
+                >
+                  <div className="text-4xl mb-2">📋</div>
+                  <p>No leads found</p>
+                </motion.div>
               ) : (
                 filteredLeads.slice(0, 8).map((lead, index) => (
                   <motion.div
                     key={lead.id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    whileHover={{ scale: 1.02, x: 5 }}
+                    whileTap={{ scale: 0.98 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm card-hover-effect glass-card"
+                    className="bg-white p-4 rounded-xl border border-gray-200 shadow-md mobile-card glass-card"
                   >
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="flex items-center gap-2">
-                        <input 
-                          type="checkbox" 
-                          className="rounded border-gray-300 text-primary focus:ring-primary"
-                          checked={selectedLeads.includes(lead.id)}
-                          onChange={() => toggleLeadSelection(lead.id)}
-                        />
-                        <h3 className="font-semibold text-gray-900 text-lg">{lead.name}</h3>
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <motion.div whileTap={{ scale: 0.9 }} className="shrink-0">
+                          <input 
+                            type="checkbox" 
+                            className="rounded border-gray-300 text-primary focus:ring-primary checkbox-animated cursor-pointer w-5 h-5"
+                            checked={selectedLeads.includes(lead.id)}
+                            onChange={() => toggleLeadSelection(lead.id)}
+                          />
+                        </motion.div>
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-bold text-gray-900 text-base truncate">{lead.name}</h3>
+                          <p className="text-xs text-gray-500 truncate">{lead.email}</p>
+                        </div>
                       </div>
-                      <Button size="sm" className="gradient-bg-animated text-primary-foreground button-ripple hover:scale-105 transition-all text-xs px-3 py-1 h-7 shadow-md">
-                        Assign
-                      </Button>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Status:</span>
-                        <Badge className={statusColors[lead.status]}>
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: index * 0.05 + 0.1, type: "spring" }}
+                      >
+                        <Badge className={`${statusColors[lead.status]} badge-pulse text-xs`}>
                           {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
                         </Badge>
-                      </div>
-                      
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Assigned Agent:</span>
+                      </motion.div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center gap-2">
+                        <span className="text-sm text-gray-600 font-medium">Agent:</span>
                         <Select defaultValue={lead.assignedAgent}>
-                          <SelectTrigger className="w-32 h-8">
+                          <SelectTrigger className="h-9 text-sm flex-1 max-w-[180px] select-animated">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -353,10 +362,10 @@ const ManagerDashboard = () => {
                         </Select>
                       </div>
                       
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Priority:</span>
+                      <div className="flex justify-between items-center gap-2">
+                        <span className="text-sm text-gray-600 font-medium">Priority:</span>
                         <Select defaultValue="medium">
-                          <SelectTrigger className="w-24 h-8">
+                          <SelectTrigger className="h-9 text-sm w-28 select-animated">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -366,6 +375,12 @@ const ManagerDashboard = () => {
                           </SelectContent>
                         </Select>
                       </div>
+                      
+                      <motion.div whileTap={{ scale: 0.95 }} className="pt-2">
+                        <Button size="sm" className="w-full gradient-bg-animated text-primary-foreground button-ripple shadow-md h-10 font-semibold touch-feedback">
+                          Assign Lead
+                        </Button>
+                      </motion.div>
                     </div>
                   </motion.div>
                 ))
@@ -373,36 +388,47 @@ const ManagerDashboard = () => {
             </div>
 
             {/* Desktop View - Table */}
-            <div className="hidden md:block overflow-x-auto">
-              <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/50">
-                  <TableHead className="w-12">
-                    <input 
-                      type="checkbox" 
-                      className="rounded border-gray-300 text-primary focus:ring-primary"
-                      checked={selectedLeads.length === filteredLeads.length && filteredLeads.length > 0}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedLeads(filteredLeads.map(l => l.id));
-                        } else {
-                          setSelectedLeads([]);
-                        }
-                      }}
-                    />
-                  </TableHead>
-                  <TableHead className="min-w-[150px]">Lead Name</TableHead>
-                  <TableHead className="min-w-[120px]">Status</TableHead>
-                  <TableHead className="min-w-[140px]">Assign Agent</TableHead>
-                  <TableHead className="min-w-[100px]">Priority</TableHead>
-                  <TableHead className="text-right min-w-[100px]">Action</TableHead>
-                </TableRow>
-              </TableHeader>
+            <div className="hidden md:block">
+                <Table>
+                <TableHeader>
+                  <TableRow className="table-header-glow border-b-2 border-primary/20">
+                    <TableHead className="bg-muted/50 w-12">
+                      <motion.div
+                        whileHover={{ scale: 1.2, rotate: 5 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <input 
+                          type="checkbox" 
+                          className="rounded border-gray-300 text-primary focus:ring-primary checkbox-animated cursor-pointer"
+                          checked={selectedLeads.length === filteredLeads.length && filteredLeads.length > 0}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedLeads(filteredLeads.map(l => l.id));
+                            } else {
+                              setSelectedLeads([]);
+                            }
+                          }}
+                        />
+                      </motion.div>
+                    </TableHead>
+                    <TableHead className="font-bold text-foreground bg-muted/50">Lead Name</TableHead>
+                    <TableHead className="font-bold text-foreground bg-muted/50">Status</TableHead>
+                    <TableHead className="font-bold text-foreground bg-muted/50">Assign Agent</TableHead>
+                    <TableHead className="font-bold text-foreground bg-muted/50">Priority</TableHead>
+                    <TableHead className="text-right font-bold text-foreground bg-muted/50">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
               <TableBody>
                 {filteredLeads.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                      No leads found matching your filters
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        No leads found matching your filters
+                      </motion.div>
                     </TableCell>
                   </TableRow>
                 ) : (
@@ -411,27 +437,45 @@ const ManagerDashboard = () => {
                       key={lead.id}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      whileHover={{ backgroundColor: "rgba(23, 162, 184, 0.05)", x: 5 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="transition-all duration-200 cursor-pointer"
+                      transition={{ delay: index * 0.05, type: "spring", stiffness: 300 }}
+                      className="table-row-hover border-b border-border/50"
                     >
                       <TableCell>
-                        <input 
+                        <motion.div
+                          whileHover={{ scale: 1.2 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <input 
                           type="checkbox" 
-                          className="rounded border-gray-300 text-primary focus:ring-primary"
+                          className="rounded border-gray-300 text-primary focus:ring-primary checkbox-animated cursor-pointer"
                           checked={selectedLeads.includes(lead.id)}
                           onChange={() => toggleLeadSelection(lead.id)}
                         />
+                        </motion.div>
                       </TableCell>
-                      <TableCell className="font-medium">{lead.name}</TableCell>
+                      <TableCell className="font-medium">
+                        <motion.span
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: index * 0.05 + 0.1 }}
+                        >
+                          {lead.name}
+                        </motion.span>
+                      </TableCell>
                       <TableCell>
-                        <Badge className={statusColors[lead.status]}>
-                          {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
-                        </Badge>
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: index * 0.05 + 0.15, type: "spring" }}
+                        >
+                          <Badge className={`${statusColors[lead.status]} badge-pulse`}>
+                            {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
+                          </Badge>
+                        </motion.div>
                       </TableCell>
                       <TableCell>
                         <Select defaultValue={lead.assignedAgent}>
-                          <SelectTrigger className="w-32 h-8">
+                          <SelectTrigger className="w-32 h-8 select-animated">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -445,7 +489,7 @@ const ManagerDashboard = () => {
                       </TableCell>
                       <TableCell>
                         <Select defaultValue="medium">
-                          <SelectTrigger className="w-24 h-8">
+                          <SelectTrigger className="w-24 h-8 select-animated">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -456,9 +500,14 @@ const ManagerDashboard = () => {
                         </Select>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button size="sm" className="gradient-bg-animated text-primary-foreground button-ripple hover:scale-105 transition-all shadow-md">
-                          Assign
-                        </Button>
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Button size="sm" className="gradient-bg-animated text-primary-foreground button-ripple hover:scale-105 transition-all shadow-md">
+                            Assign
+                          </Button>
+                        </motion.div>
                       </TableCell>
                     </motion.tr>
                   ))
@@ -495,7 +544,7 @@ const ManagerDashboard = () => {
         </div>
         <div>
           {/* Mobile View - Cards */}
-          <div className="md:hidden space-y-4 p-4">
+          <div className="md:hidden space-y-3 p-3 sm:p-4">
             {mockAgents.map((agent, index) => {
               const conversionRate = Math.round(
                 (agent.converted / agent.leadsAssigned) * 100
@@ -505,60 +554,74 @@ const ManagerDashboard = () => {
                   key={agent.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm card-hover-effect glass-card"
+                  className="bg-white p-4 rounded-xl border border-gray-200 shadow-md mobile-card glass-card"
                 >
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="font-semibold text-gray-900 text-lg">{agent.name}</h3>
-                    <Badge 
-                      className={`${
-                        conversionRate >= 70 ? 'bg-green-100 text-green-800' :
-                        conversionRate >= 50 ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
-                      }`}
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex items-center gap-3">
+                      <motion.div
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        className="h-12 w-12 rounded-full gradient-bg-animated flex items-center justify-center ring-2 ring-primary/20 shadow-md shrink-0"
+                      >
+                        <span className="text-lg font-bold text-white">
+                          {agent.name.split(" ").map(n => n[0]).join("")}
+                        </span>
+                      </motion.div>
+                      <div className="min-w-0">
+                        <h3 className="font-bold text-gray-900 text-base truncate">{agent.name}</h3>
+                        <p className="text-xs text-gray-500">Sales Agent</p>
+                      </div>
+                    </div>
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: index * 0.05 + 0.1, type: "spring" }}
                     >
-                      {conversionRate}%
-                    </Badge>
+                      <Badge 
+                        className={`badge-pulse text-xs ${
+                          conversionRate >= 70 ? 'bg-green-100 text-green-800' :
+                          conversionRate >= 50 ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'
+                        }`}
+                      >
+                        {conversionRate}%
+                      </Badge>
+                    </motion.div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-600">Leads Assigned:</span>
-                      <span className="text-sm font-medium text-gray-900">{agent.leadsAssigned}</span>
+                  <div className="grid grid-cols-3 gap-3 mb-4">
+                    <div className="text-center p-2 rounded-lg bg-gray-50">
+                      <p className="text-xl font-bold text-gray-900">{agent.leadsAssigned}</p>
+                      <p className="text-xs text-gray-600">Assigned</p>
                     </div>
-                    
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-600">Converted:</span>
-                      <span className="text-sm font-medium text-green-600">{agent.converted}</span>
+                    <div className="text-center p-2 rounded-lg bg-green-50">
+                      <p className="text-xl font-bold text-green-600">{agent.converted}</p>
+                      <p className="text-xs text-gray-600">Converted</p>
                     </div>
-                    
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-600">Pending:</span>
-                      <span className="text-sm font-medium text-yellow-600">{agent.pending}</span>
-                    </div>
-                    
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-600">Conversion Rate:</span>
-                      <span className="text-sm font-medium text-gray-900">{conversionRate}%</span>
+                    <div className="text-center p-2 rounded-lg bg-yellow-50">
+                      <p className="text-xl font-bold text-yellow-600">{agent.pending}</p>
+                      <p className="text-xs text-gray-600">Pending</p>
                     </div>
                   </div>
                   
                   {/* Progress Bar */}
-                  <div className="mt-3">
-                    <div className="flex justify-between text-xs text-gray-500 mb-1">
-                      <span>Progress</span>
+                  <div>
+                    <div className="flex justify-between text-xs text-gray-600 mb-2 font-medium">
+                      <span>Conversion Rate</span>
                       <span>{conversionRate}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className={`h-2 rounded-full transition-all duration-500 ${
-                          conversionRate >= 70 ? 'bg-green-600' :
-                          conversionRate >= 50 ? 'bg-yellow-600' :
-                          'bg-red-600'
+                    <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${conversionRate}%` }}
+                        transition={{ duration: 1, delay: index * 0.1 + 0.5, ease: "easeOut" }}
+                        className={`h-3 rounded-full transition-all duration-500 ${
+                          conversionRate >= 70 ? 'bg-gradient-to-r from-green-500 to-green-600' :
+                          conversionRate >= 50 ? 'bg-gradient-to-r from-yellow-500 to-yellow-600' :
+                          'bg-gradient-to-r from-red-500 to-red-600'
                         }`}
-                        style={{ width: `${conversionRate}%` }}
-                      ></div>
+                      />
                     </div>
                   </div>
                 </motion.div>
@@ -567,17 +630,17 @@ const ManagerDashboard = () => {
           </div>
 
           {/* Desktop View - Table */}
-          <div className="hidden md:block overflow-x-auto">
-            <Table>
-            <TableHeader>
-              <TableRow className="bg-muted/50">
-                <TableHead className="min-w-[150px]">Agent Name</TableHead>
-                <TableHead className="text-center min-w-[120px]">Leads Assigned</TableHead>
-                <TableHead className="text-center min-w-[100px]">Converted</TableHead>
-                <TableHead className="text-center min-w-[100px]">Pending</TableHead>
-                <TableHead className="text-center min-w-[150px]">Conversion Rate</TableHead>
-              </TableRow>
-            </TableHeader>
+          <div className="hidden md:block">
+              <Table>
+              <TableHeader>
+                <TableRow className="table-header-glow border-b-2 border-primary/20">
+                  <TableHead className="font-bold text-foreground bg-muted/50">Agent Name</TableHead>
+                  <TableHead className="text-center font-bold text-foreground bg-muted/50">Leads Assigned</TableHead>
+                  <TableHead className="text-center font-bold text-foreground bg-muted/50">Converted</TableHead>
+                  <TableHead className="text-center font-bold text-foreground bg-muted/50">Pending</TableHead>
+                  <TableHead className="text-center font-bold text-foreground bg-muted/50">Conversion Rate</TableHead>
+                </TableRow>
+              </TableHeader>
             <TableBody>
               {mockAgents.map((agent, index) => {
                 const conversionRate = Math.round(
@@ -588,14 +651,48 @@ const ManagerDashboard = () => {
                     key={agent.id}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    whileHover={{ backgroundColor: "rgba(23, 162, 184, 0.05)", x: 5 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="transition-all duration-200 cursor-pointer"
+                    transition={{ delay: index * 0.05, type: "spring", stiffness: 300 }}
+                    className="table-row-hover border-b border-border/50"
                   >
-                    <TableCell className="font-medium">{agent.name}</TableCell>
-                    <TableCell className="text-center">{agent.leadsAssigned}</TableCell>
-                    <TableCell className="text-center text-success">{agent.converted}</TableCell>
-                    <TableCell className="text-center text-warning">{agent.pending}</TableCell>
+                    <TableCell className="font-medium">
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: index * 0.05 + 0.1 }}
+                      >
+                        {agent.name}
+                      </motion.span>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: index * 0.05 + 0.15, type: "spring" }}
+                        className="inline-block"
+                      >
+                        {agent.leadsAssigned}
+                      </motion.span>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: index * 0.05 + 0.2, type: "spring" }}
+                        className="text-success font-medium inline-block"
+                      >
+                        {agent.converted}
+                      </motion.span>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: index * 0.05 + 0.25, type: "spring" }}
+                        className="text-warning font-medium inline-block"
+                      >
+                        {agent.pending}
+                      </motion.span>
+                    </TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center justify-center gap-2">
                         <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">

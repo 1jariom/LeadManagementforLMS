@@ -49,7 +49,7 @@ export function ManagerLayout({ children, title }: ManagerLayoutProps) {
   }, [isMobile]);
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className="min-h-screen bg-muted/30 h-auto">
       {/* Mobile Overlay */}
       <AnimatePresence>
         {isMobile && sidebarOpen && (
@@ -67,7 +67,7 @@ export function ManagerLayout({ children, title }: ManagerLayoutProps) {
 
       {/* Main Content */}
       <div className={cn(
-        "transition-all duration-300",
+        "transition-all duration-300 min-h-screen",
         isMobile ? "ml-0" : "ml-64"
       )}>
         {/* Header */}
