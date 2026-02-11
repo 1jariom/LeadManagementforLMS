@@ -387,7 +387,7 @@ const AdminDashboard = () => {
           initial={{ opacity: 0, y: -30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-600 via-teal-700 to-cyan-800 p-6 md:p-8 shadow-2xl"
+          className="relative overflow-hidden rounded-2xl gradient-teal p-6 md:p-8 shadow-2xl"
         >
           {/* Background Pattern */}
           <motion.div 

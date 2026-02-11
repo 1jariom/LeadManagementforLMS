@@ -158,7 +158,7 @@ const AdminSettings = () => {
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-purple-700 to-pink-800 p-8 text-white"
+          className="relative overflow-hidden rounded-3xl gradient-teal p-8 text-white"
         >
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">

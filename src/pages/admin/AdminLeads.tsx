@@ -262,7 +262,7 @@ const AdminLeads = () => {
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 p-8 text-white"
+          className="relative overflow-hidden rounded-3xl gradient-teal p-8 text-white"
         >
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
@@ -635,8 +635,8 @@ const AdminLeads = () => {
               label: "Converted", 
               value: stats.converted, 
               icon: CheckCircle, 
-              gradient: "from-emerald-500 to-emerald-600",
-              bg: "from-emerald-50 to-emerald-100", 
+              gradient: "gradient-teal",
+              bg: "from-teal-50 to-teal-100", 
               change: "+8%",
               changeType: "increase"
             },
@@ -786,7 +786,7 @@ const AdminLeads = () => {
         >
           <div className="relative overflow-hidden rounded-3xl shadow-2xl">
             {/* Premium Gradient Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/95 via-emerald-600/90 to-cyan-600/95" />
+            <div className="absolute inset-0 gradient-teal" />
             
             {/* Enhanced Background Pattern */}
             <div className="absolute inset-0 opacity-20">
@@ -801,7 +801,7 @@ const AdminLeads = () => {
             
             {/* Animated Overlay */}
             <motion.div 
-              className="absolute inset-0 bg-gradient-to-r from-teal-400/20 via-emerald-500/30 to-cyan-400/20"
+              className="absolute inset-0 bg-gradient-to-r from-teal-400/20 via-teal-500/30 to-teal-400/20"
               animate={{
                 backgroundPosition: ['0% 50%', '100% 50%']
               }}
@@ -862,13 +862,13 @@ const AdminLeads = () => {
                     >
                       <Card className={`relative overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-500 transform-gpu ${
                         stepLeads > 0 
-                          ? 'bg-gradient-to-br from-teal-50 to-emerald-100' 
+                          ? 'bg-white' 
                           : 'bg-gradient-to-br from-gray-50 to-gray-100'
                       }`}>
                         {/* Animated background effect */}
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
-                          <div className={`absolute inset-0 bg-gradient-to-br ${
-                            stepLeads > 0 ? 'from-teal-500 to-emerald-600' : 'from-gray-400 to-gray-500'
+                          <div className={`absolute inset-0 ${
+                            stepLeads > 0 ? 'gradient-teal' : 'bg-gradient-to-br from-gray-400 to-gray-500'
                           }`} />
                         </div>
                         
@@ -878,8 +878,8 @@ const AdminLeads = () => {
                             initial={{ width: 0 }}
                             animate={{ width: `${percentage}%` }}
                             transition={{ delay: 1.5 + index * 0.2, duration: 1 }}
-                            className={`h-full bg-gradient-to-r ${
-                              stepLeads > 0 ? 'from-teal-400 to-emerald-600' : 'from-gray-300 to-gray-400'
+                            className={`h-full ${
+                              stepLeads > 0 ? 'gradient-teal' : 'bg-gradient-to-r from-gray-300 to-gray-400'
                             }`}
                           />
                         </div>
