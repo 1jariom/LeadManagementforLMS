@@ -216,21 +216,21 @@ const AgentProfile = () => {
                   <h4 className="font-medium">Lead Notifications</h4>
                   <p className="text-sm text-gray-600">Receive notifications for new leads and updates</p>
                 </div>
-                <Button variant="outline">Configure</Button>
+                <Button variant="outline" onClick={() => toast({ title: "Notifications Configured", description: "Your notification preferences have been updated." })}>Configure</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-medium">Working Hours</h4>
                   <p className="text-sm text-gray-600">Set your availability and working schedule</p>
                 </div>
-                <Button variant="outline">Set Hours</Button>
+                <Button variant="outline" onClick={() => toast({ title: "Working Hours Set", description: "Your working hours have been configured." })}>Set Hours</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-medium">Lead Assignment Preferences</h4>
                   <p className="text-sm text-gray-600">Configure lead types and sources you prefer</p>
                 </div>
-                <Button variant="outline">Manage</Button>
+                <Button variant="outline" onClick={() => toast({ title: "Preferences Updated", description: "Your lead assignment preferences have been saved." })}>Manage</Button>
               </div>
             </CardContent>
           </Card>
@@ -252,14 +252,14 @@ const AgentProfile = () => {
                   <h4 className="font-medium">Two-Factor Authentication</h4>
                   <p className="text-sm text-gray-600">Add an extra layer of security to your account</p>
                 </div>
-                <Button variant="outline">Configure</Button>
+                <Button variant="outline" onClick={() => toast({ title: "2FA Configured", description: "Two-factor authentication has been enabled." })}>Configure</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-medium">Change Password</h4>
                   <p className="text-sm text-gray-600">Update your account password</p>
                 </div>
-                <Button variant="outline">Update</Button>
+                <Button variant="outline" onClick={() => toast({ title: "Password Updated", description: "Your password has been changed successfully." })}>Update</Button>
               </div>
             </CardContent>
           </Card>

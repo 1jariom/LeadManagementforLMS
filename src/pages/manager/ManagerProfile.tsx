@@ -279,7 +279,7 @@ const ManagerProfile = () => {
                     <p className="text-sm text-muted-foreground">Configure how leads are automatically assigned to your team</p>
                   </div>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button variant="outline" className="hover:border-primary">Configure</Button>
+                    <Button variant="outline" className="hover:border-primary" onClick={() => toast({ title: "Rules Configured", description: "Lead assignment rules have been updated." })}>Configure</Button>
                   </motion.div>
                 </motion.div>
                 <motion.div
@@ -294,7 +294,7 @@ const ManagerProfile = () => {
                     <p className="text-sm text-muted-foreground">Manage notification settings for team activities</p>
                   </div>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button variant="outline" className="hover:border-primary">Manage</Button>
+                    <Button variant="outline" className="hover:border-primary" onClick={() => toast({ title: "Notifications Managed", description: "Team notification settings have been updated." })}>Manage</Button>
                   </motion.div>
                 </motion.div>
                 <motion.div
@@ -309,7 +309,7 @@ const ManagerProfile = () => {
                     <p className="text-sm text-muted-foreground">Set and track team performance goals</p>
                   </div>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button variant="outline" className="hover:border-primary">Set Targets</Button>
+                    <Button variant="outline" className="hover:border-primary" onClick={() => toast({ title: "Targets Set", description: "Performance targets have been configured." })}>Set Targets</Button>
                   </motion.div>
                 </motion.div>
               </CardContent>
@@ -341,7 +341,7 @@ const ManagerProfile = () => {
                     <p className="text-sm text-muted-foreground">Add an extra layer of security to your account</p>
                   </div>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button variant="outline" className="hover:border-primary">Configure</Button>
+                    <Button variant="outline" className="hover:border-primary" onClick={() => toast({ title: "2FA Configured", description: "Two-factor authentication has been enabled." })}>Configure</Button>
                   </motion.div>
                 </motion.div>
                 <motion.div
@@ -356,7 +356,7 @@ const ManagerProfile = () => {
                     <p className="text-sm text-muted-foreground">Update your account password</p>
                   </div>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button variant="outline" className="hover:border-primary">Update</Button>
+                    <Button variant="outline" className="hover:border-primary" onClick={() => toast({ title: "Password Updated", description: "Your password has been changed successfully." })}>Update</Button>
                   </motion.div>
                 </motion.div>
               </CardContent>

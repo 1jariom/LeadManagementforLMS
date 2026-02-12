@@ -35,18 +35,18 @@ import { LeadDetailModal } from "@/components/agent/LeadDetailModal";
 import { AddLeadModal } from "@/components/agent/AddLeadModal";
 
 const statusColors: Record<string, string> = {
-  new: "bg-blue-500/10 text-blue-700 border border-blue-200 dark:border-blue-800 dark:text-blue-400 dark:bg-blue-950/20",
+  new: "bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-700 border border-blue-300 dark:text-blue-400 shadow-sm",
   contacted:
-    "bg-purple-500/10 text-purple-700 border border-purple-200 dark:border-purple-800 dark:text-purple-400 dark:bg-purple-950/20",
+    "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-700 border border-purple-300 dark:text-purple-400 shadow-sm",
   qualified:
-    "bg-amber-500/10 text-amber-700 border border-amber-200 dark:border-amber-800 dark:text-amber-400 dark:bg-amber-950/20",
+    "bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-700 border border-amber-300 dark:text-amber-400 shadow-sm",
   proposal:
-    "bg-indigo-500/10 text-indigo-700 border border-indigo-200 dark:border-indigo-800 dark:text-indigo-400 dark:bg-indigo-950/20",
+    "bg-gradient-to-r from-indigo-500/20 to-blue-500/20 text-indigo-700 border border-indigo-300 dark:text-indigo-400 shadow-sm",
   negotiation:
-    "bg-orange-500/10 text-orange-700 border border-orange-200 dark:border-orange-800 dark:text-orange-400 dark:bg-orange-950/20",
+    "bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-700 border border-orange-300 dark:text-orange-400 shadow-sm",
   converted:
-    "bg-green-500/10 text-green-700 border border-green-200 dark:border-green-800 dark:text-green-400 dark:bg-green-950/20",
-  lost: "bg-red-500/10 text-red-700 border border-red-200 dark:border-red-800 dark:text-red-400 dark:bg-red-950/20",
+    "bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-700 border border-green-300 dark:text-green-400 shadow-sm",
+  lost: "bg-gradient-to-r from-red-500/20 to-rose-500/20 text-red-700 border border-red-300 dark:text-red-400 shadow-sm",
 };
 
 const MyLeads = () => {
@@ -139,17 +139,24 @@ const MyLeads = () => {
               Showing {filteredLeads.length} of {agentLeads.length} leads
             </p>
           </div>
-          <Button
-            className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white w-full md:w-auto"
-            onClick={() => setIsAddLeadModalOpen(true)}
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Add Lead
-          </Button>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Button
+              className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white w-full md:w-auto shadow-lg hover:shadow-xl transition-all"
+              onClick={() => setIsAddLeadModalOpen(true)}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Lead
+            </Button>
+          </motion.div>
         </div>
 
         {/* Search and Filters */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3"
+        >
           <div className="relative md:col-span-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
             <Input
@@ -206,7 +213,7 @@ const MyLeads = () => {
               </SelectContent>
             </Select>
           </div>
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* Active Filters Display */}
@@ -254,7 +261,8 @@ const MyLeads = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-border bg-card shadow-sm"
+        transition={{ delay: 0.2 }}
+        className="rounded-xl border border-border bg-card shadow-lg overflow-hidden"
       >
         {filteredLeads.length === 0 ? (
           <div className="p-12 text-center">
@@ -276,7 +284,7 @@ const MyLeads = () => {
           <div className="w-full overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="bg-muted/50 hover:bg-muted/50 border-b">
+                <TableRow className="bg-gradient-to-r from-teal-500/10 to-cyan-500/10 hover:from-teal-500/20 hover:to-cyan-500/20 border-b">
                   <TableHead className="min-w-[100px] sm:min-w-[120px] px-3 sm:px-4 py-3">Lead Name</TableHead>
                   <TableHead className="min-w-[120px] sm:min-w-[150px] px-3 sm:px-4 py-3">Contact</TableHead>
                   <TableHead className="hidden md:table-cell min-w-[120px] px-3 sm:px-4 py-3">Company</TableHead>
@@ -293,7 +301,7 @@ const MyLeads = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="hover:bg-muted/30 border-b border-border last:border-b-0 transition-colors"
+                    className="hover:bg-gradient-to-r hover:from-teal-500/5 hover:to-cyan-500/5 border-b border-border last:border-b-0 transition-all cursor-pointer"
                   >
                     <TableCell className="font-medium text-xs sm:text-sm py-2 sm:py-3 px-3 sm:px-4">
                       <span className="truncate block">{lead.name}</span>

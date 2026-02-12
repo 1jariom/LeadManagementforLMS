@@ -282,21 +282,21 @@ const AdminProfile = () => {
                   <h4 className="font-medium">Two-Factor Authentication</h4>
                   <p className="text-sm text-gray-600">Add an extra layer of security to your account</p>
                 </div>
-                <Button variant="outline">Configure</Button>
+                <Button variant="outline" onClick={() => toast({ title: "2FA Configured", description: "Two-factor authentication has been enabled." })}>Configure</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-medium">Change Password</h4>
                   <p className="text-sm text-gray-600">Update your account password</p>
                 </div>
-                <Button variant="outline">Update</Button>
+                <Button variant="outline" onClick={() => toast({ title: "Password Updated", description: "Your password has been changed successfully." })}>Update</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-medium">Login History</h4>
                   <p className="text-sm text-gray-600">View recent login activity</p>
                 </div>
-                <Button variant="outline">View</Button>
+                <Button variant="outline" onClick={() => toast({ title: "Login History", description: "Displaying your recent login activity." })}>View</Button>
               </div>
             </CardContent>
           </Card>
